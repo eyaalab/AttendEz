@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Role</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-main">
+  <div class="card animate">
+    <h2>Select Role</h2>
+    <div class="grid">
+      <button onclick="go('student')">STUDENT</button>
+      <button onclick="go('teacher')">TEACHER</button>
+    </div>
+  </div>
+<script>
+function go(r){
+  localStorage.setItem("role", r);
+  location.href = r==="student" ? "login-student.html" : "login-teacher.html";
+}
+</script>
+</body>
+</html>

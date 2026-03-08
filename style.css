@@ -1,0 +1,318 @@
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}
+html,body{height:100%}
+.bg-login,.bg-main{
+  display:flex;align-items:center;justify-content:center;
+  background:
+  linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),
+  url("../assets/bg-main.png") center/cover no-repeat;
+}
+.bg-login{background-image:
+  linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+  url("../assets/bg-login.png")}
+.card{
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(8px);
+  padding:32px;border-radius:16px;
+  width:380px;text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.3)
+}
+.card.wide{width:90%;max-width:900px}
+.right{margin-left:18%} 
+h2{margin-bottom:16px}
+input,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:0}
+button{background:#1f4ed8;color:#fff;font-weight:600;cursor:pointer}
+button:hover{transform:scale(1.04)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.animate{animation:in .6s ease forwards;opacity:0}
+@keyframes in{from{transform:translateY(20px);opacity:0}to{opacity:1}}
+table{width:100%;border-collapse:collapse;margin:12px 0}
+td,th{border:1px solid #ccc;padding:6px}
+
+/* BACKGROUND */
+.bg-dashboard{
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background:url("olopsclogo.png") center/cover no-repeat fixed;
+  height:100vh;
+}
+
+/* HEADER */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:40px;
+}
+
+/* LOGO + TITLE GROUP */
+.logo-area{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+/* LOGO IMAGE */
+.logo{
+  width:65px;
+  height:65px;
+  object-fit:contain;
+}
+
+/* TITLE */
+.logo-area h1{
+  margin:30px;
+  font-size:60px;
+  font-weight:800;
+  color:#0b2a6b;
+}
+
+.logo-area span{
+  color:#f59e0b;
+}
+
+/* SEARCH BAR */
+.search{
+  margin: 30px;
+  padding:12px 22px;
+  border-radius:25px;
+  border:none;
+  width:280px;
+  font-size:15px;
+  outline:none;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* STRAND GRID */
+.strand-container{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:70px 200px;   /* ito yung spacing na kamukha ng screenshot */
+}
+
+/* STRAND TITLE */
+.strand h2{
+  text-align:center;
+  font-size:42px;
+  margin-bottom:18px;
+  color:black;
+  letter-spacing:2px;
+}
+
+/* SECTION BUTTONS */
+.section{
+  display:block;
+  margin:12px auto;
+  padding:13px 30px;
+  border:none;
+  border-radius:30px;
+  background:white;
+  font-weight:700;
+  font-size:16px;
+  color:black;        /* ginawa nating black text */
+  box-shadow:0 3px 10px rgba(0,0,0,0.25);
+  cursor:pointer;
+  transition:0.2s;
+  min-width:100px;
+}
+
+.section:hover{
+  transform:scale(1.05);
+  background:#f3f4f6;
+}
+
+/* SECTION PAGE BOX */
+.section-box{
+  max-width:420px;
+  margin:60px auto;
+  background:rgba(255,255,255,0.9);
+  padding:40px;
+  border-radius:18px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+  text-align:center;
+}
+
+/* TITLE */
+.section-box h2{
+  margin-top:0;
+  font-size:32px;
+}
+
+/* CODE DISPLAY */
+.code-box{
+  margin-top:25px;
+}
+
+.code-box label{
+  display:block;
+  font-weight:600;
+  margin-bottom:8px;
+}
+
+.code{
+  background:black;
+  color:white;
+  padding:14px;
+  border-radius:10px;
+  font-size:22px;
+  letter-spacing:2px;
+  font-weight:bold;
+}
+
+/* DATE PICKER */
+.date-box{
+  margin-top:20px;
+}
+
+.date-box input{
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  font-size:15px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* BUTTON */
+.primary{
+  margin-top:30px;
+  padding:14px 30px;
+  border:none;
+  border-radius:25px;
+  background:#0b2a6b;
+  color:white;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.primary:hover{
+  background:#081c45;
+  transform:scale(1.05);
+}
+
+.code-input{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  margin-top:20px;
+  font-size:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+  text-align:center;
+  letter-spacing:2px;
+}
+.section-title{
+  margin-top:20px;
+  font-size:46px;
+  font-weight:800;
+  color:black;
+}
+
+/* SUBJECT GRID */
+.subjects-grid{
+  margin-top:30px;
+  display:grid;
+  grid-template-columns: repeat(2, 320px);
+  justify-content:center;
+  gap:25px 80px;
+}
+
+/* SUBJECT BUTTON */
+.subject-btn{
+  padding:16px;
+  border:none;
+  border-radius:35px;
+  background:white;
+  font-weight:800;
+  font-size:18px;
+  color:black;
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.subject-btn:hover{
+  transform:scale(1.05);
+  background:#f1f1f1;
+}
+/* WRAP TWO COLUMNS */
+.attendance-wrap{
+  margin-top:30px;
+  display:flex;
+  justify-content:center;
+  gap:140px;
+}
+
+/* COLUMN */
+.attendance-col{
+  width:320px;
+}
+
+/* SELECT ALL */
+.select-all{
+  text-align:right;
+  margin-bottom:10px;
+}
+
+.select-all button{
+  border:none;
+  background:none;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* STUDENT ROW */
+.student-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 20px;
+  margin-bottom:12px;
+  border-radius:30px;
+  background:white;
+  font-weight:800;
+  box-shadow:0 3px 10px rgba(0,0,0,0.25);
+}
+
+/* PRESENT BUTTON */
+.present-btn{ 
+  border:none;
+  border-radius:20px;
+  padding:6px 18px;
+  font-weight:normal;
+  cursor:pointer;
+  background:#e5e5e5;
+}
+
+.present-btn.active{
+  background:#0b2a6b;
+  color:white;
+}
+
+/* CODE AREA */
+.code-area{
+  margin-top:40px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:12px;
+  font-weight:800;
+}
+
+.code-area input{
+  padding:12px;
+  border:none;
+  border-radius:20px;
+  width:200px;
+}
+
+.select-all select{
+  border:none;
+  border-radius:20px;
+  padding:8px 14px;
+  font-weight:800;
+  background:white;
+  box-shadow:0 3px 10px rgba(0,0,0,0.2);
+  cursor:pointer;
+}
+

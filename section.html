@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Enter Section Code</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-dashboard">
+
+<div class="overlay">
+
+  <div class="section-box">
+
+    <h2>Enter Section Code</h2>
+
+    <input type="text" id="codeInput" placeholder="Enter access code" class="code-input">
+    
+    <p id="msg" style="color:red;margin-top:15px;"></p>
+
+  <div class="date-box">
+    <label>Select Date</label>
+    <input type="date" id="datePick">
+    </div>
+
+    <button class="primary" onclick="checkCode()">ACCESS SECTION</button>
+
+  </div>
+
+</div>
+
+<script>
+
+const sections = {
+
+  "QXJ7MZ":"HUMSS - AARON",
+  "L9PK2R":"HUMSS - ENOCH",
+  "W3F8TN":"HUMSS - MALACHI",
+  "Z6B4YC":"HUMSS - MICAH",
+
+  "H2V7QS":"ABM - ELISHA",
+  "K8D1XP":"ABM - ZEPHANIAH",
+  "R5M3LA":"ABM - JONAH",
+
+  "T9C4WE":"STEM - AMOS",
+  "F7U2KQ":"STEM - DANIEL",
+  "P6S8ZR":"STEM - HABAKKUK",
+  "Y3N5VD":"STEM - ISHMAEL",
+  "B1X9HT":"STEM - MIRIAM",
+  "C4L7JF":"STEM - OBADIAH",
+
+  "N8Q2SA":"TVL ICT - HUD",
+  "E5T1RW":"TVL ICT - ODED",
+
+  "J3K9PU":"TVL COOK - SHEMAIAH",
+  "A6M4BX":"TVL COOK - ZECHARIAH",
+
+  "D7F2LY":"ADT MVA - JOSEPH"
+};
+
+function checkCode(){
+
+  const input = document.getElementById("codeInput").value.toUpperCase();
+
+  if(sections[input]){
+    localStorage.setItem("sectionName", sections[input]);
+    window.location.href = "subjects.html";
+  }else{
+    document.getElementById("msg").innerText = "Invalid Code";
+  }
+
+}
+
+</script>
+
+</body>
+</html>

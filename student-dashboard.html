@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dashboard – AttendEZ</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body.bg-dashboard {
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: url('bg.png') center/cover no-repeat fixed;
+  }
+
+  .overlay {
+    min-height: 100vh;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(2px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 32px;
+    background: transparent;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo-area h1 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #1612f1;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-area h1 span {
+    color: #f5a623;
+  }
+
+  .search-wrapper {
+    position: relative;
+    width: 280px;
+  }
+
+  .search-wrapper svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255,255,255,0.5);
+    pointer-events: none;
+  }
+
+  .search {
+    width: 100%;
+    padding: 9px 16px 9px 38px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .search::placeholder { color: rgba(255,255,255,0.5); }
+  .search:focus {
+    border-color: #f5a623;
+    background: rgba(255,255,255,0.18);
+  }
+
+  .strand-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 32px;
+    flex: 1;
+  }
+
+  .strand {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s;
+  }
+
+  .strand:hover { transform: translateY(-3px); }
+
+  .strand h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .section {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.9);
+    color: #1a1a2e;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.18s, color 0.18s, transform 0.15s, border-color 0.18s;
+  }
+
+  .section:hover {
+    background: #1612f1;
+    color: #fff;
+    border-color: #1612f1;
+    transform: scale(1.03);
+  }
+
+  .strand.hidden { display: none; }
+  .section.hidden { display: none; }
+
+  #no-results {
+    display: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 60px 0;
+    grid-column: 1 / -1;
+  }
+</style>
+</head>
+
+<body class="bg-dashboard">
+<div class="overlay">
+
+  <header class="topbar">
+    <div class="logo-area">
+      <h1>Attend<span>EZ</span></h1>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      </svg>
+    
+      <input type="file" accept="image/*" id="bgUpload" style="display:none;" onchange="changeBG(event)">
+    </label>
+    <div class="search-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.099zm-5.242 1.156a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11"/>
+      </svg>
+      <input type="text" class="search" id="searchInput" placeholder="Search section..." oninput="filterSections()">
+    </div>
+    </div>
+  </header>
+
+  <div class="strand-container" id="strandContainer">
+
+    <div class="strand" data-strand="STEM">
+      <h2>STEM</h2>
+      <button class="section" onclick="openSection('STEM-AMOS')">AMOS</button>
+      <button class="section" onclick="openSection('STEM-DANIEL')">DANIEL</button>
+      <button class="section" onclick="openSection('STEM-HABAKKUK')">HABAKKUK</button>
+      <button class="section" onclick="openSection('STEM-ISHMAEL')">ISHMAEL</button>
+      <button class="section" onclick="openSection('STEM-MIRIAM')">MIRIAM</button>
+      <button class="section" onclick="openSection('STEM-OBADIAH')">OBADIAH</button>
+    </div>
+
+    <div class="strand" data-strand="HUMSS">
+      <h2>HUMSS</h2>
+      <button class="section" onclick="openSection('HUMSS-AARON')">AARON</button>
+      <button class="section" onclick="openSection('HUMSS-ENOCH')">ENOCH</button>
+      <button class="section" onclick="openSection('HUMSS-MALACHI')">MALACHI</button>
+      <button class="section" onclick="openSection('HUMSS-MICAH')">MICAH</button>
+    </div>
+
+    <div class="strand" data-strand="ABM">
+      <h2>ABM</h2>
+      <button class="section" onclick="openSection('ABM-ELISHA')">ELISHA</button>
+      <button class="section" onclick="openSection('ABM-ZEPHANIAH')">ZEPHANIAH</button>
+      <button class="section" onclick="openSection('ABM-JONAH')">JONAH</button>
+    </div>
+
+    <div class="strand" data-strand="TVL-ICT">
+      <h2>TVL-ICT</h2>
+      <button class="section" onclick="openSection('TVL-ICT-HUD')">HUD</button>
+      <button class="section" onclick="openSection('TVL-ICT-ODED')">ODED</button>
+    </div>
+
+    <div class="strand" data-strand="TVL-COOK">
+      <h2>TVL-COOK</h2>
+      <button class="section" onclick="openSection('TVL-COOK-SHEMAIAH')">SHEMAIAH</button>
+      <button class="section" onclick="openSection('TVL-COOK-ZECHARIAH')">ZECHARIAH</button>
+    </div>
+
+    <div class="strand" data-strand="ADT-MVA">
+      <h2>ADT-MVA</h2>
+      <button class="section" onclick="openSection('ADT-MVA-JOSEPH')">JOSEPH</button>
+    </div>
+
+    <div id="no-results">No sections found.</div>
+  </div>
+
+</div>
+
+<script>
+function changeBG(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  document.body.style.backgroundImage = `url('${url}')`;
+  document.body.style.backgroundSize = 'cover';
+  document.body.style.backgroundPosition = 'center';
+  document.body.style.backgroundAttachment = 'fixed';
+}
+
+function openSection(code) {
+  localStorage.setItem("sectionCode", code);
+  window.location.href = "section.html";
+}
+
+function filterSections() {
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  const strands = document.querySelectorAll(".strand");
+  let anyVisible = false;
+
+  strands.forEach(strand => {
+    const strandName = strand.dataset.strand.toLowerCase();
+    const buttons = strand.querySelectorAll(".section");
+    let strandHasMatch = false;
+
+    buttons.forEach(btn => {
+      const name = btn.textContent.toLowerCase();
+      const match = !query || name.includes(query) || strandName.includes(query);
+      btn.classList.toggle("hidden", !match);
+      if (match) strandHasMatch = true;
+    });
+
+    strand.classList.toggle("hidden", !strandHasMatch);
+    if (strandHasMatch) anyVisible = true;
+  });
+
+  document.getElementById("no-results").style.display = anyVisible ? "none" : "block";
+}
+</script>
+</body>
+</html>

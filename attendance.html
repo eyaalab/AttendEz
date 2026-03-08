@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AttendEZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('bg.png') center/cover no-repeat fixed;    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.08);
+    z-index: 0;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    position: relative;
+    z-index: 10;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px 16px;
+    gap: 10px;
+  }
+
+  .logo-area { display: none !important; } .logo-area-UNUSED {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-area img {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    object-fit: cover;
+    background: #fff;
+  }
+
+  .logo-fallback {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+
+  .logo-area h1 {
+    font-size: 26px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-area h1 span { color: #f5a800; }
+
+  .home-btn { display: none; } .home-btn-old {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  .home-btn:hover { background: rgba(255,255,255,0.35); }
+
+  .search {
+    background: rgba(255,255,255,0.95);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    outline: none;
+    width: 150px;
+    flex-shrink: 0;
+  }
+
+  .search::placeholder { color: #aaa; }
+
+  /* ── MAIN ── */
+  .main {
+    position: relative;
+    z-index: 1;
+    padding: 16px 14px 60px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .subject-title {
+    font-size: 38px;
+    font-weight: 900;
+    color: #111;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(255,255,255,0.65);
+    margin-bottom: 2px;
+  }
+
+  .section-badge {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 800;
+    color: #1a44aa;
+    background: rgba(255,255,255,0.82);
+    border-radius: 20px;
+    padding: 4px 16px;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* SELECT ALL */
+  .select-all-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+  }
+
+  .select-all-bar select {
+    background: rgba(255,255,255,0.92);
+    border: 2px solid rgba(0,0,0,0.12);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* COLS */
+  .attendance-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+  }
+
+  #boysList {
+    padding-right: 20px;
+  }
+
+  #girlsList {
+    padding-left: 20px;
+  }
+
+  .student-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    animation: rowFade 0.22s ease both;
+  }
+
+  @keyframes rowFade {
+    from { opacity:0; transform:translateY(5px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+.student-label {
+  font-size: 25px;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(255,255,255,0.5);
+  min-width: 34px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+  .status-pill {
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255,255,255,0.92);
+    border: 2px solid rgba(0,0,0,0.12);
+    border-radius: 20px;
+    padding: 12px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    flex: 1;
+    text-align: center;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  .status-pill.val-Present { background:#e6fff2; border-color:#27ae60; color:#1a7a40; }
+  .status-pill.val-Tardy   { background:#fffbe6; border-color:#f5a800; color:#996800; }
+  .status-pill.val-Excused { background:#e6f4ff; border-color:#2980b9; color:#1a5e8a; }
+  .status-pill.val-Absent  { background:#ffe6e6; border-color:#e74c3c; color:#961a1a; }
+
+  /* ── BOTTOM PANEL ── */
+  .bottom-panel {
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    padding: 16px;
+    margin-top: 18px;
+    border: 1px solid rgba(255,255,255,0.6);
+  }
+
+  .code-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .code-label {
+    font-size: 12px;
+    font-weight: 900;
+    color: #555;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .code-input {
+    flex: 1;
+    background: #fff;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    padding: 9px 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #222;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .code-input::placeholder { letter-spacing: 2px; color: #bbb; font-weight: 700; }
+  .code-input:focus { border-color: #1a44aa; }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    flex: 1;
+    border: none;
+    border-radius: 14px;
+    padding: 13px 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: transform 0.12s, filter 0.12s, box-shadow 0.12s;
+  }
+
+  .btn:hover  { filter: brightness(1.08); }
+  .btn:active { transform: scale(0.97); }
+
+  .btn-save {
+    background: linear-gradient(135deg, #1944a0, #2a72d4);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(25,68,160,0.35);
+  }
+
+  .btn-csv {
+    background: linear-gradient(135deg, #1a8a40, #27ae60);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(26,138,64,0.35);
+  }
+
+  .btn-delete {
+    background: linear-gradient(135deg, #c41e3a, #e74c3c);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(196,30,58,0.35);
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    padding: 12px 24px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    background: #222;
+    z-index: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    white-space: nowrap;
+  }
+
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: #1a8a40; }
+  .toast.error   { background: #c0392b; }
+  .toast.info    { background: #1944a0; }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: #fff;
+    border-radius: 22px;
+    padding: 30px 24px 24px;
+    width: 310px;
+    text-align: center;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+    animation: popIn 0.22s ease;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.82); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+
+  .modal-icon { font-size: 40px; margin-bottom: 10px; }
+  .modal h3   { font-size: 20px; font-weight: 900; color: #111; margin-bottom: 6px; }
+  .modal p    { font-size: 13px; color: #666; line-height: 1.5; }
+
+  .modal-code-display {
+    margin: 14px 0;
+    background: #f0f4ff;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: #1944a0;
+  }
+
+  .modal-btns { display: flex; gap: 10px; margin-top: 6px; }
+
+  .modal-btn {
+    flex: 1;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: filter 0.15s;
+  }
+
+  .modal-btn:hover { filter: brightness(1.07); }
+  .modal-btn.cancel  { background: #eee; color: #555; }
+  .modal-btn.confirm { background: linear-gradient(135deg,#1944a0,#2a72d4); color: #fff; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="home-btn" onclick="history.back()" title="Home">⌂</button>
+  <div class="logo-area">
+    <img src="images/logo.png" id="logoImg" alt="logo" onerror="document.getElementById('logoImg').style.display='none'; document.getElementById('logoFb').style.display='flex';">
+    <div class="logo-fallback" id="logoFb" style="display:none;">🏫</div>
+    <h1>Attend<span>EZ</span></h1>
+  </div>
+  <input type="text" class="search" id="searchInput" placeholder="Search Bar...">
+</header>
+
+<div class="main">
+  <div class="subject-title" id="subjectTitle">SUBJECT</div>
+  <div class="section-badge" id="sectionBadge">Section</div>
+
+  <div class="select-all-bar">
+    <select onchange="setAll(this.value); this.selectedIndex=0;">
+      <option disabled selected>SELECT ALL</option>
+      <option>Present</option>
+      <option>Tardy</option>
+      <option>Excused</option>
+      <option>Absent</option>
+    </select>
+  </div>
+
+  <div class="attendance-cols">
+    <div id="boysList"></div>
+    <div id="girlsList"></div>
+  </div>
+
+  <div class="bottom-panel">
+    <div class="code-row">
+      <span class="code-label">CODE</span>
+      <input type="text" class="code-input" id="codeInput" placeholder="ENTER CODE" maxlength="16" autocomplete="off">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-save" onclick="openSaveModal()">💾 Save</button>
+      <button class="btn btn-csv"  onclick="downloadCSV()">📥 Download CSV</button>
+      <button class="btn btn-delete" onclick="openDeleteModal()">🗑️ Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="saveModal">
+  <div class="modal">
+    <div class="modal-icon">🔐</div>
+    <h3>Confirm Save</h3>
+    <p>Save attendance for <strong id="modalSection">—</strong> using this code?</p>
+    <div class="modal-code-display" id="modalCodeDisplay">—</div>
+    <div class="modal-btns">
+      <button class="modal-btn cancel"  onclick="closeModal()">Cancel</button>
+      <button class="modal-btn confirm" onclick="confirmSave()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <div class="modal-icon">⚠️</div>
+    <h3>Delete Attendance</h3>
+    <p>Are you sure you want to delete today's attendance record for <strong id="deleteModalSection">—</strong>?</p>
+    <p style="font-size: 12px; color: #666; margin-top: 10px;">This action cannot be undone.</p>
+    <div class="modal-btns">
+      <button class="modal-btn cancel"  onclick="closeDeleteModal()">Cancel</button>
+      <button class="modal-btn confirm" style="background: #e74c3c;" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SECTION_CODES = {
+  "HUMSS - AARON":        "QXJ7MZ",
+  "HUMSS - ENOCH":        "L9PK2R",
+  "HUMSS - MALACHI":      "W3F8TN",
+  "HUMSS - MICAH":        "Z6B4YC",
+  "ABM - ELISHA":         "H2V7QS",
+  "ABM - ZEPHANIAH":      "K8D1XP",
+  "ABM - JONAH":          "R5M3LA",
+  "STEM - AMOS":          "T9C4WE",
+  "STEM - DANIEL":        "F7U2KQ",
+  "STEM - HABAKKUK":      "P6S8ZR",
+  "STEM - ISHMAEL":       "Y3N5VD",
+  "STEM - MIRIAM":        "B1X9HT",
+  "STEM - OBADIAH":       "C4L7JF",
+  "TVL ICT - HUD":        "N8Q2SA",
+  "TVL ICT - ODED":       "E5T1RW",
+  "TVL COOK - SHEMAIAH":  "J3K9PU",
+  "TVL COOK - ZECHARIAH": "A6M4BX",
+  "ADT MVA - JOSEPH":     "D7F2LY"
+};
+
+const counts = {
+  "HUMSS - AARON":        {b:20,g:25},
+  "HUMSS - ENOCH":        {b:11,g:36},
+  "HUMSS - MALACHI":      {b:14,g:29},
+  "HUMSS - MICAH":        {b:19,g:25},
+  "ABM - JONAH":          {b:15,g:24},
+  "ABM - ZEPHANIAH":      {b:10,g:18},
+  "ABM - ELISHA":         {b:24,g:18},
+  "STEM - AMOS":          {b:36,g:9},
+  "STEM - DANIEL":        {b:18,g:29},
+  "STEM - HABAKKUK":      {b:24,g:22},
+  "STEM - ISHMAEL":       {b:19,g:25},
+  "STEM - MIRIAM":        {b:20,g:27},
+  "STEM - OBADIAH":       {b:19,g:23},
+  "TVL ICT - HUD":        {b:31,g:6},
+  "TVL ICT - ODED":       {b:30,g:8},
+  "TVL COOK - SHEMAIAH":  {b:19,g:15},
+  "TVL COOK - ZECHARIAH": {b:16,g:17},
+  "ADT MVA - JOSEPH":     {b:19,g:28}
+};
+
+const subject = localStorage.getItem("subjectName") || "SUBJECT";
+const section = localStorage.getItem("sectionName") || "STEM - DANIEL";
+const data    = counts[section] || {b:10, g:10};
+
+document.getElementById("subjectTitle").textContent = subject;
+document.getElementById("sectionBadge").textContent = section;
+
+const boysList  = document.getElementById("boysList");
+const girlsList = document.getElementById("girlsList");
+
+function createRow(prefix, num, delay) {
+  const row = document.createElement("div");
+  row.className = "student-row";
+  row.dataset.id = prefix + num;
+  row.style.animationDelay = delay + "ms";
+
+  const lbl = document.createElement("span");
+  lbl.className = "student-label";
+  lbl.textContent = prefix + num;
+
+  const sel = document.createElement("select");
+  sel.className = "status-pill val-Present";
+  ["Present","Tardy","Excused","Absent"].forEach(v => {
+    const o = document.createElement("option");
+    o.value = v; o.textContent = v;
+    sel.appendChild(o);
+  });
+  sel.addEventListener("change", function() {
+    this.className = "status-pill val-" + this.value;
+  });
+
+  row.appendChild(lbl);
+  row.appendChild(sel);
+  return row;
+}
+
+for (let i = 1; i <= data.b; i++) boysList.appendChild(createRow("B", i, i * 18));
+for (let i = 1; i <= data.g; i++) girlsList.appendChild(createRow("G", i, i * 18));
+
+function loadSavedAttendance() {
+  const today = new Date().toISOString().slice(0, 10);
+  const key = `attendance__${section}__${today}`;
+  const saved = localStorage.getItem(key);
+  
+  if (saved) {
+    const payload = JSON.parse(saved);
+    payload.records.forEach(record => {
+      const row = document.querySelector(`[data-id="${record.id}"]`);
+      if (row) {
+        const pill = row.querySelector(".status-pill");
+        pill.value = record.status;
+        pill.className = "status-pill val-" + record.status;
+      }
+    });
+    showToast("📥 Previous attendance loaded!", "info");
+  }
+}
+
+loadSavedAttendance();
+
+function setAll(value) {
+  document.querySelectorAll(".status-pill").forEach(s => {
+    s.value = value;
+    s.className = "status-pill val-" + value;
+  });
+}
+
+document.getElementById("searchInput").addEventListener("input", function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll(".student-row").forEach(row => {
+    const lbl = row.querySelector(".student-label").textContent.toLowerCase();
+    row.style.display = lbl.includes(q) ? "" : "none";
+  });
+});
+
+function showToast(msg, type = "") {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.className = "toast show " + type;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.className = "toast"; }, 3000);
+}
+
+function openSaveModal() {
+  const code = document.getElementById("codeInput").value.trim();
+  if (!code) {
+    showToast("⚠️ Please enter the code first.", "error");
+    document.getElementById("codeInput").focus();
+    return;
+  }
+  document.getElementById("modalSection").textContent    = section;
+  document.getElementById("modalCodeDisplay").textContent = code.toUpperCase();
+  document.getElementById("saveModal").classList.add("open");
+}
+
+function closeModal() {
+  document.getElementById("saveModal").classList.remove("open");
+}
+
+function confirmSave() {
+  const entered = document.getElementById("codeInput").value.trim().toUpperCase();
+  closeModal();
+
+  const correctCode = (SECTION_CODES[section] || "").toUpperCase();
+  if (entered !== correctCode) {
+    showToast("❌ Incorrect code. Attendance not saved.", "error");
+    return;
+  }
+
+  const records = [];
+  document.querySelectorAll(".student-row").forEach(row => {
+    records.push({
+      id:     row.dataset.id,
+      status: row.querySelector(".status-pill").value
+    });
+  });
+
+  const payload = {
+    subject, section,
+    date:    new Date().toLocaleDateString(),
+    time:    new Date().toLocaleTimeString(),
+    records
+  };
+
+  const key = `attendance__${section}__${new Date().toISOString().slice(0,10)}`;
+  localStorage.setItem(key, JSON.stringify(payload));
+  showToast("✅ Attendance saved successfully!", "success");
+  setTimeout(() => { window.location.href = "subjects.html"; }, 1200);
+}
+
+function openDeleteModal() {
+  const today = new Date().toISOString().slice(0, 10);
+  const key = `attendance__${section}__${today}`;
+  const saved = localStorage.getItem(key);
+  
+  if (!saved) {
+    showToast("⚠️ No attendance record found for today.", "error");
+    return;
+  }
+  
+  const confirmed = confirm("Are you sure you want to delete today's attendance data? This cannot be undone.");
+  
+  if (confirmed) {
+    document.getElementById("deleteModalSection").textContent = section;
+    document.getElementById("deleteModal").classList.add("open");
+  }
+}
+
+function closeDeleteModal() {
+  document.getElementById("deleteModal").classList.remove("open");
+}
+
+function confirmDelete() {
+  const today = new Date().toISOString().slice(0, 10);
+  const key = `attendance__${section}__${today}`;
+  localStorage.removeItem(key);
+  closeDeleteModal();
+  showToast("🗑️ Attendance record deleted!", "success");
+  
+  document.querySelectorAll(".status-pill").forEach(pill => {
+    pill.value = "Present";
+    pill.className = "status-pill val-Present";
+  });
+}
+
+function downloadCSV() {
+  const rows = document.querySelectorAll(".student-row");
+  const today = new Date();
+
+  const dayHeaders = Array.from({length: 31}, (_, i) => `Day ${i + 1}`).join(",");
+  let csv = `Student ID,${dayHeaders}\n`;
+
+  const dayOfMonth = today.getDate();
+  const statusCode = { "Present": "P", "Tardy": "T", "Excused": "E", "Absent": "A" };
+
+  rows.forEach(row => {
+    const id = row.dataset.id;
+    const statusRaw = row.querySelector(".status-pill").value;
+    const code = statusCode[statusRaw] || "";
+
+    const days = Array(31).fill("");
+    days[dayOfMonth - 1] = code;
+    csv += `"${id}",${days.join(",")}\n`;
+  });
+
+  const all = [...rows].map(r => r.querySelector(".status-pill").value);
+  const count = v => all.filter(s => s === v).length;
+  csv += `\nSummary\n`;
+  csv += `Present,${count("Present")}\n`;
+  csv += `Tardy,${count("Tardy")}\n`;
+  csv += `Excused,${count("Excused")}\n`;
+  csv += `Absent,${count("Absent")}\n`;
+  csv += `Total,${all.length}\n`;
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `AttendEZ_${section.replace(/[\s/]+/g, "_")}_${today.toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast("📥 CSV downloaded!", "info");
+}
+</script>
+</body>
+</html>

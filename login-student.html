@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-login">
+
+<div class="card">
+  <h2>Student</h2>
+
+  <input type="email" id="email" placeholder="Email"><br><br>
+  <input type="password" id="pass" placeholder="Password"><br><br>
+
+  <button onclick="login()">LOGIN</button>
+
+  <p id="msg" style="color:red;"></p>
+</div>
+
+<script>
+function login(){
+
+  const role = localStorage.getItem("role");
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("pass").value;
+
+  const studentAccounts = [
+    
+ 
+    { email: "mhuyatid.24n-0320@olopsc.edu.ph", password: "24n-0320" },
+    { email: "dllandones.24n-0671@olopsc.edu.ph", password: "24n-0671" },
+    { email: "efernandez.24n-0328@olopsc.edu.ph", password: "24n-0328" },
+    { email: "pgamitado.24n-0217@olopsc.edu.ph", password: "24n-0217" },
+    { email: "lbabalo.24n-0061@olopsc.edu.ph", password: "24n-0061" },
+    { email: "ccano.24n-0525@olopsc.edu.ph", password: "24n-0525" },
+    { email: "lmanalo.24n-0143@olopsc.edu.ph", password: "24n-0143" },
+    { email: "sdelrosario.24n-0152@olopsc.edu.ph", password: "24n-0152" },
+    { email: "malanes.24n-0163@olopsc.edu.ph", password: "24n-0163" },
+    { email: "jbayle.24n-0153@olopsc.edu.ph", password: "24n-0153" },
+    { email: "sgapan.24n-0322@olopsc.edu.ph", password: "24n-0322" },
+    { email: "kbatoon.24n-0230@olopsc.edu.ph", password: "24n-0230" },
+    { email: "jrellama.24n-02312olopsc.edu.ph", password: "24n-0231" },
+    { email: "abolivar.24n-0863@olopsc.edu.ph", password: "24n-0863" },
+    { email: "jberja.24n-0611@olopsc.edu.ph", password: "24n-0611" },
+    { email: "tfelix.24n-0499@olopsc.edu.ph", password: "24n-0499" },
+    { email: "mencarnacion.24n-0636@olopsc.edu.ph", password: "24n-0636" },
+    { email: "hershey.paz@olopsc.edu.ph", password: "hershey.paz" }
+
+  ];
+
+  const teacherAccounts = [
+    { email: "teacher@attendez.com", password: "123456" },
+    { email: "teacher2@attendez.com", password: "teacherpass" },
+    { email: "teacher3@attendez.com", password: "anotherpass" }
+  ];
+
+  if(role === "student"){
+    const validStudent = studentAccounts.find(acc => acc.email === email && acc.password === pass);
+    if(validStudent){
+      window.location.href = "student-dashboard.html";
+    }else{
+      document.getElementById("msg").innerText = "Access Denied";
+    }
+  }
+
+  if(role === "teacher"){
+    const validTeacher = teacherAccounts.find(acc => acc.email === email && acc.password === pass);
+    if(validTeacher){
+      window.location.href = "teacher-dashboard.html";
+    }else{
+      document.getElementById("msg").innerText = "Access Denied";
+    }
+  }
+
+}
+</script>
+
+</body>
+</html>
